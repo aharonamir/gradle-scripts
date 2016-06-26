@@ -1,0 +1,49 @@
+apply plugin: 'java'
+
+def gitLog() { return "git log --pretty=format:'%h' -n 1".execute().text.trim().replaceAll("'", "") }
+
+sourceCompatibility = 1.8
+
+repositories {
+//    maven { url "http://172.16.1.132:8081/repository/internal" }
+}
+
+class DockerImage {
+    String name;
+}
+
+
+
+task buildDockerImage(type:Exec) {
+    dependsOn jar
+    mustRunAfter jar
+    println 'building docker image: $dockerImage'
+    def commandWirhArgs = [ "docker" ,"build","-t", "$dockerImage", "."]
+    commandLine commandWirhArgs
+}
+
+task stopDockerCompose(type:Exec) {
+    //dependsOn buildDockerImage
+    //mustRunAfter buildDockerImage
+    println 'stopping docker compose...'
+    def commandWirhArgs = [ "docker-compose" ,"stop"]
+    commandLine commandWirhArgs
+}
+
+task removeDockerCompose(type:Exec) {
+    dependsOn stopDockerCompose
+    mustRunAfter stopDockerCompose
+    println 'removing docker compose...'
+    def commandWirhArgs = [ "docker-compose" ,"rm","--force"]
+    commandLine commandWirhArgs
+}
+
+task startDockerCompose(type:Exec) {
+    dependsOn jar
+    mustRunAfter jar
+    println 'running docker compose...'
+    // if you want to run in background add "-d"
+    // if you want to see logs run without -d
+    def commandWirhArgs = [ "docker-compose" ,"up","--force-recreate","-d"]
+    commandLine commandWirhArgs
+}
