@@ -5,5 +5,6 @@ common gradle tasks
   project.ext.set("dockerImage", [full-image-name] like "hello/world")
 - add the script file :
   apply from: 'https://raw.githubusercontent.com/aharonamir/gradle-scripts/master/build.gradle'
+- the apply must be before using gitLog() method
 
 Enjoy
