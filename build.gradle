@@ -2,7 +2,9 @@ apply plugin: 'java'
 
 def gitLog() { return "git log --pretty=format:'%h' -n 1".execute().text.trim().replaceAll("'", "") }
 
-sourceCompatibility = 1.8
+ext{
+    gitLog = this.&gitLog
+}
 
 repositories {
 //    maven { url "http://172.16.1.132:8081/repository/internal" }
