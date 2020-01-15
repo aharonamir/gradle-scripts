@@ -46,6 +46,6 @@ task startDockerCompose(type:Exec) {
     println 'running docker compose...'
     // if you want to run in background add "-d"
     // if you want to see logs run without -d
-    def commandWirhArgs = [ "docker-compose" ,"up","--force-recreate","-d"]
+    def commandWirhArgs = [ "docker-compose" ,"up","--force-recreate"]
     commandLine commandWirhArgs
 }
